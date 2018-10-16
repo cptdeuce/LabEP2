@@ -91,16 +91,19 @@ public class Helper {
                     Object o = objit.next();
                     if(o.getOwnerNumber() == owner.getUserId())
                     {
-                        counterObjects++;
-                        System.out.printf("\n \tCódigo del objeto: " + o.getCodeNumber());
-                        System.out.printf("\n\tDescripción: " + o.getDescription());
-                        System.out.printf("\n\tFecha de disponibilidad: " + o.getStartDate().getDayOfMonth() + "/" + o.getStartDate().getMonth() + "/" 
-                        + o.getStartDate().getYear() +" - " + o.getEndDate().getDayOfMonth() + "/" + o.getEndDate().getMonth() + "/" 
-                        + o.getEndDate().getYear() + "\n");
-                        System.out.printf("\n\tCoste del préstamo por día: " + o.getDailyCost() + " euros\n");
-                        showObjectRents(o.getCodeNumber(), rents, users, o);
-                    }else if(o.getOwnerNumber() == owner.getUserId())
-                        System.out.println("\n\t\tEl objeto " + o.getCodeNumber() + " no tiene préstamos asociados.");
+                        if(isRented(o.getCodeNumber(), rents))
+                        {
+                            counterObjects++;
+                            System.out.printf("\n \tCódigo del objeto: " + o.getCodeNumber());
+                            System.out.printf("\n\tDescripción: " + o.getDescription());
+                            System.out.printf("\n\tFecha de disponibilidad: " + o.getStartDate().getDayOfMonth() + "/" + o.getStartDate().getMonth() + "/" 
+                            + o.getStartDate().getYear() +" - " + o.getEndDate().getDayOfMonth() + "/" + o.getEndDate().getMonth() + "/" 
+                            + o.getEndDate().getYear() + "\n");
+                            System.out.printf("\n\tCoste del préstamo por día: " + o.getDailyCost() + " euros\n");
+                            showObjectRents(o.getCodeNumber(), rents, users, o);
+                        } else
+                            System.out.println("\n\t\tEl objeto " + o.getCodeNumber() + " no tiene préstamos asociados.");
+                    }
                 }
             }
             else 
@@ -128,11 +131,13 @@ public class Helper {
                     Object o = objit.next();
                     if(o.getOwnerNumber() == owner.getUserId())
                     {
-                        counterObjects++;
-                        showObjectRents(o.getCodeNumber(), rents, users, o);
-                        
-                    }else
-                        System.out.println("\n\t\tEl objeto " + o.getCodeNumber() + " no tiene préstamos asociados.");
+                        if(isRented(o.getCodeNumber(), rents))
+                        {
+                            counterObjects++;
+                            showObjectRents(o.getCodeNumber(), rents, users, o);
+                        }else
+                            System.out.println("\n\t\tEl objeto " + o.getCodeNumber() + " no tiene préstamos asociados.");
+                    }
                 }
                 System.out.print("Importe total acumulado para la startup: "+ owner.getBalance() + "euros\n");
             }
@@ -286,5 +291,27 @@ public class Helper {
             if(objectID == o.getCodeNumber())
                 o.setAvailable(false);
         }
+    }
+    
+    public boolean isRented(int objectID, ArrayList rents)
+    {
+        for (Iterator<Rent> rentIt = rents.iterator(); rentIt.hasNext();)
+        {   
+            Rent r = rentIt.next();
+            if(objectID == r.getObjectID())
+                return true;
+        }
+        return false;
+    }
+    
+    public void editObject(ArrayList objects)
+    {
+        Scanner sc = new Scanner(System.in);
+        showAllObjects(objects);
+        System.out.print("\nThe objectID to change: ");
+        int objectID = Integer.parseInt(sc.nextLine());
+        Object ob = getObject(objectID, objects);
+        System.out.print("\nNuevo costo diario: ");
+        ob.setDailyCost(Integer.parseInt(sc.nextLine()));
     }
 }
