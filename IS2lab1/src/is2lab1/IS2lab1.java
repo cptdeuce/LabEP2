@@ -32,7 +32,7 @@ public class IS2lab1 {
         
         String S = String.format("\n1-Alta de Usuario\n" + "2-Alta de objeto\n" +
                 "3-Alquiler de objeto\n" + "4-Listar todos los objetos\n" +
-                "5-Baja de objeto\n" + "6-Mostrar saldos\n" + "" +"7-Salir\n");
+                "5-Baja de objeto\n" + "6-Mostrar saldos\n" + "7-Editar costo diario de objeto\n" +"8-Salir\n");
         int menu = 0;
         do{
             switch(menu){
@@ -65,12 +65,16 @@ public class IS2lab1 {
                     hp.showBalances(users, objects, rents);
                     menu = 0;
                     break;
-                case 7: 
+                case 7:
+                    hp.editObject(objects);
+                    menu = 0;
+                    break;
+                case 8:
                     break;
                 default:
                     System.out.print(S);
             }
-        }while(menu != 7);
+        }while(menu != 8);
     }
     
 }

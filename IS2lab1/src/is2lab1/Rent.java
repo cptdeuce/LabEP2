@@ -17,6 +17,26 @@ public class Rent {
     int objectID;
     LocalDate rentStart;
     LocalDate rentEnd;
+    double startUpPrice;
+    double totalPrice;
+
+    public double getStartUpPrice() {
+        return startUpPrice;
+    }
+
+    public void setStartUpPrice(double startUpPrice) {
+        this.startUpPrice = startUpPrice;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+    
+    
 
     public int getRentID() {
         return rentID;
