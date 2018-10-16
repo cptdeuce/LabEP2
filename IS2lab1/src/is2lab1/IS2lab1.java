@@ -32,8 +32,7 @@ public class IS2lab1 {
         
         String S = String.format("\n1-Alta de Usuario\n" + "2-Alta de objeto\n" +
                 "3-Alquiler de objeto\n" + "4-Listar todos los objetos\n" +
-                "5-Baja de objeto\n" + "6-Mostrar saldos\n" + "7-Salir\n");
-        Scanner sc = new Scanner(System.in);
+                "5-Baja de objeto\n" + "6-Mostrar saldos\n" + "" +"7-Salir\n");
         int menu = 0;
         do{
             switch(menu){
@@ -43,39 +42,11 @@ public class IS2lab1 {
                     menu = reader.nextInt();
                     break;
                 case 1:  
-                    User s = new User();
-                    System.out.print("\nNuevo Usuario");
-                    System.out.print("\nNombre: ");
-                    s.setUserName(sc.nextLine());
-                    System.out.print("\nEmail: ");
-                    s.setUserEmail(sc.nextLine());
-                    userCounter++;
-                    s.setUserId(userCounter);
-                    users.add(s);
+                    hp.createObject(objects, users, objectCounter);
                     menu = 0;
                     break;
                 case 2:
-                    Object o = new Object();
-                    System.out.print("\nNuevo Objeto\n");
-                    for (Iterator<User> it = users.iterator(); it.hasNext();) {
-                        User us = it.next();
-                        String string;
-                        string = String.format("%d- %s\n", us.getUserId(), us.getUserName());
-                        System.out.print(string);
-                    }
-                    System.out.print("\nID de propietario: ");
-                    o.setOwnerNumber(Integer.parseInt(sc.nextLine()));
-                    System.out.print("\nDescripcion Objeto: ");
-                    o.setDescription(sc.nextLine());
-                    System.out.print("\nFecha de Inicio (yyyy-mm-dd): ");
-                    o.setStartDate(LocalDate.parse(sc.nextLine()));
-                    System.out.print("\nFecha de Termino (yyyy-mm-dd): ");
-                    o.setEndDate(LocalDate.parse(sc.nextLine()));
-                    System.out.print("\nCosto diario: ");
-                    o.setDailyCost(Integer.parseInt(sc.nextLine()));
-                    objectCounter++;
-                    o.setCodeNumber(objectCounter);
-                    objects.add(o);
+                    hp.createObject(objects, users, objectCounter);
                     menu = 0;
                     break;
                 case 3:

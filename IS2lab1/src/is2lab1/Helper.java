@@ -17,6 +17,46 @@ import java.util.Scanner;
  */
 public class Helper {
   
+    public void createUser(ArrayList users, int userCounter)
+    {
+        Scanner sc = new Scanner(System.in);
+        User s = new User();
+        System.out.print("\nNuevo Usuario");
+        System.out.print("\nNombre: ");
+        s.setUserName(sc.nextLine());
+        System.out.print("\nEmail: ");
+        s.setUserEmail(sc.nextLine());
+        userCounter++;
+        s.setUserId(userCounter);
+        users.add(s);
+    }
+    
+    public void createObject(ArrayList objects, ArrayList users, int objectCounter)
+    {   
+        Scanner sc = new Scanner(System.in);
+        Object o = new Object();
+        System.out.print("\nNuevo Objeto\n");
+        for (Iterator<User> it = users.iterator(); it.hasNext();) {
+            User us = it.next();
+            String string;
+            string = String.format("%d- %s\n", us.getUserId(), us.getUserName());
+            System.out.print(string);
+        }
+        System.out.print("\nID de propietario: ");
+        o.setOwnerNumber(Integer.parseInt(sc.nextLine()));
+        System.out.print("\nDescripcion Objeto: ");
+        o.setDescription(sc.nextLine());
+        System.out.print("\nFecha de Inicio (yyyy-mm-dd): ");
+        o.setStartDate(LocalDate.parse(sc.nextLine()));
+        System.out.print("\nFecha de Termino (yyyy-mm-dd): ");
+        o.setEndDate(LocalDate.parse(sc.nextLine()));
+        System.out.print("\nCosto diario: ");
+        o.setDailyCost(Integer.parseInt(sc.nextLine()));
+        objectCounter++;
+        o.setCodeNumber(objectCounter);
+        objects.add(o);
+    }
+    
     public boolean isOwner(ArrayList objects, int ownerID)
     {
         for(Iterator<Object> objit = objects.iterator(); objit.hasNext();)
