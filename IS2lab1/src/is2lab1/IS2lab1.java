@@ -32,7 +32,8 @@ public class IS2lab1 {
         
         String S = String.format("\n1-Alta de Usuario\n" + "2-Alta de objeto\n" +
                 "3-Alquiler de objeto\n" + "4-Listar todos los objetos\n" +
-                "5-Baja de objeto\n" + "6-Mostrar saldos\n" + "7-Editar costo diario de objeto\n" +"8-Salir\n");
+                "5-Baja de objeto\n" + "6-Mostrar saldos\n" + "7-Editar costo diario de objeto\n" 
+                + "8-Recibir textfile de saldos\n" + "9-Eliminar usuario\n" + "10-Salir\n");
         int menu = 0;
         do{
             switch(menu){
@@ -42,7 +43,7 @@ public class IS2lab1 {
                     menu = reader.nextInt();
                     break;
                 case 1:  
-                    hp.createUser(users, userCounter);
+                    userCounter = hp.createUser(users, userCounter);
                     menu = 0;
                     break;
                 case 2:
@@ -70,11 +71,19 @@ public class IS2lab1 {
                     menu = 0;
                     break;
                 case 8:
+                    hp.putInfoInTextFile();
+                    menu = 0;
+                    break;
+                case 9:
+                    hp.deleteUser(objects, users);
+                    menu = 0;
+                    break;
+                case 10:
                     break;
                 default:
                     System.out.print(S);
             }
-        }while(menu != 8);
+        }while(menu != 10);
     }
     
 }

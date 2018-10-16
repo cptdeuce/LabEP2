@@ -5,10 +5,14 @@
  */
 package is2lab1;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -17,7 +21,7 @@ import java.util.Scanner;
  */
 public class Helper {
   
-    public void createUser(ArrayList users, int userCounter)
+    public int createUser(ArrayList users, int userCounter)
     {
         Scanner sc = new Scanner(System.in);
         User s = new User();
@@ -29,6 +33,7 @@ public class Helper {
         userCounter++;
         s.setUserId(userCounter);
         users.add(s);
+        return userCounter;
     }
     
     public void createObject(ArrayList objects, ArrayList users, int objectCounter)
@@ -285,6 +290,10 @@ public class Helper {
         System.out.print("\nIngrese el ID del objeto que desea dar de baja: ");
         Scanner input = new Scanner(System.in);
         int objectID = Integer.parseInt(input.nextLine());
+        unsubscribeFinder(objectID, objects);
+    }
+    public void unsubscribeFinder(int objectID, ArrayList objects)
+    {
         for (Iterator<Object> objit = objects.iterator(); objit.hasNext();)
         {   
             Object o = objit.next();
@@ -313,5 +322,51 @@ public class Helper {
         Object ob = getObject(objectID, objects);
         System.out.print("\nNuevo costo diario: ");
         ob.setDailyCost(Integer.parseInt(sc.nextLine()));
+    }
+    public void putInfoInTextFile()
+    {
+        String str = "\nTEST, hier moet info saldos inkomen (optie 6)";
+        Writer writer = null;
+
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(
+                  new FileOutputStream("info_saldos.txt"), "utf-8"));
+            writer.write(str);
+        } catch (IOException ex) {
+            // Report
+        } finally {
+           try {writer.close();} catch (IOException ex) {/*ignore*/}
+        }
+    }
+    
+    public void showAllUsers(ArrayList users)
+    {
+        for (Iterator<User> it = users.iterator(); it.hasNext();) 
+        {
+            User us = it.next();
+            System.out.println("\n" + us.getUserId() + " " + us.getUserName());
+        }
+    }
+    
+    public void deleteUser(ArrayList objects, ArrayList users)
+    {   
+        System.out.println("\nUserID to delete: \n");
+        showAllUsers(users);
+        Scanner input = new Scanner(System.in);
+        int userID = Integer.parseInt(input.nextLine()); 
+        for (Iterator<Object> objit = objects.iterator(); objit.hasNext();)
+            {   
+                Object o = objit.next();
+                if(o.getOwnerNumber() == userID)
+                {
+                    unsubscribeFinder(o.getOwnerNumber(), objects);
+                }
+            }
+        for (Iterator<User> it = users.iterator(); it.hasNext();)
+        {
+            User owner = it.next();
+            if (owner.getUserId() == userID)
+                it.remove();
+        }
     }
 }
