@@ -94,4 +94,10 @@ public class User {
         this.userEmail = userEmail;
     }
     
+    public String toString()
+    {
+        String s;
+        s = String.format("\nPROPIETARIO %d \nNombre del propietario: %s \nCorreo Electrónico: %s", this.userId, this.userName, this.userEmail);
+        return s;
+    }
 }

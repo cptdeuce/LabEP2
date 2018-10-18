@@ -47,7 +47,7 @@ public class IS2lab1 {
                     menu = 0;
                     break;
                 case 2:
-                    hp.createObject(objects, users, objectCounter);
+                    objectCounter = hp.createObject(objects, users, objectCounter);
                     menu = 0;
                     break;
                 case 3:
