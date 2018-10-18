@@ -5,20 +5,14 @@
  */
 package is2lab1;
 
-<<<<<<< HEAD
-import java.text.DateFormat;
-=======
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
->>>>>>> 83587c782f809af1d95c2fa4c7c69a9daed08d71
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -28,7 +22,6 @@ import java.util.Scanner;
  */
 public class Helper {
   
-<<<<<<< HEAD
     public static boolean isEmail(String userEmail)
     {
         return false;
@@ -68,8 +61,6 @@ public class Helper {
         return null;
     }
     
-=======
->>>>>>> 83587c782f809af1d95c2fa4c7c69a9daed08d71
     public int createUser(ArrayList users, int userCounter)
     {
         Scanner sc = new Scanner(System.in);
