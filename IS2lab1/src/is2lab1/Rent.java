@@ -36,8 +36,6 @@ public class Rent {
         this.totalPrice = totalPrice;
     }
     
-    
-
     public int getRentID() {
         return rentID;
     }

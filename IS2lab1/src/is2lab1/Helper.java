@@ -12,6 +12,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -30,6 +32,12 @@ public class Helper {
         s.setUserName(sc.nextLine());
         System.out.print("\nEmail: ");
         s.setUserEmail(sc.nextLine());
+        System.out.print("\nDirección : ");
+        s.setAdress(sc.nextLine());
+        System.out.print("\nPoblación : ");
+        s.setTown(sc.nextLine());
+        System.out.print("\nProvincia : ");
+        s.setProvince(sc.nextLine());
         userCounter++;
         s.setUserId(userCounter);
         users.add(s);
@@ -220,6 +228,7 @@ public class Helper {
         Object o = getObject(r.getObjectID(), objects);
         User us = getOwner(r.getObjectID(), users);
         us.setBalance(us.getBalance() + getStartUpPrice(r.getRentStart(), r.getRentEnd(), o.getDailyCost()));
+        us.incrementAmountOfRentals();
     }
     
     public String getClientName(int clientID, ArrayList users)
@@ -366,7 +375,28 @@ public class Helper {
         {
             User owner = it.next();
             if (owner.getUserId() == userID)
-                it.remove();
+                owner.setDeleted(true);
         }
+    }
+    public void showRegulars(ArrayList users)
+    {
+        System.out.println("\nEl usuarios mas regular: \n");
+        int counter = 0;
+        ArrayList temp = orderedUsersAmountRentals(users);
+        for (Iterator<User> it = temp.iterator(); it.hasNext();)
+        {
+            counter++;
+            User us = it.next();
+            System.out.println(counter + ". " + us.getUserName() + "\nCantidad de alquileres:\t" + us.getAmountOfRentals() 
+                    + "\nTotal importe de alquiler pagado:\t" + us.getBalance() + "\nDirección:\t" + us.getAdress() + "\n");
+        }
+    
+    }
+    public ArrayList orderedUsersAmountRentals(ArrayList users)
+    {
+        ArrayList temp = users;
+        Collections.sort(temp, (User u1, User u2) -> u1.getAmountOfRentals() - u2.getAmountOfRentals());
+        Collections.sort(temp, Collections.reverseOrder());
+        return temp;
     }
 }
