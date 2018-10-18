@@ -65,7 +65,7 @@ public class Helper {
         }while(flag);
         return null;
     }
-    
+
     public int createUser(ArrayList users, int userCounter)
     {
         Scanner sc = new Scanner(System.in);
@@ -111,6 +111,7 @@ public class Helper {
         objectCounter++;
         o.setCodeNumber(objectCounter);
         objects.add(o);
+        return objectCounter;
     }
     
     public boolean isOwner(ArrayList objects, int ownerID)
@@ -172,8 +173,8 @@ public class Helper {
     public void showBalances(ArrayList users, ArrayList objects, ArrayList rents)
     {   
         int counterOwners = 0;
-        int counterObjects = 0;
         
+                
         for (Iterator<User> it = users.iterator(); it.hasNext();)
         {
             User owner = it.next();
@@ -193,13 +194,12 @@ public class Helper {
                     {
                         if(isRented(o.getCodeNumber(), rents))
                         {
-                            counterObjects++;
                             showObjectRents(o.getCodeNumber(), rents, users, o);
                         }else
                             System.out.println("\n\t\tEl objeto " + o.getCodeNumber() + " no tiene préstamos asociados.");
                     }
                 }
-                System.out.print("Importe total acumulado para la startup: "+ owner.getBalance() + "euros\n");
+                System.out.println("Importe total acumulado para la startup: "+ owner.getBalance() + "euros\n");
             }
             else 
                 System.out.printf("El properietario " + counterOwners +" no tiene objetos asociados.\n");
@@ -270,7 +270,8 @@ public class Helper {
         System.out.print("\nFecha de termino de alquiler (dd/mm/yyyy): ");
         r.setRentEnd(validateDate());
         Object o = getObject(r.getObjectID(), objects);
-        r.setTotalPrice(getTotalPrice(r.getRentStart(), r.getRentEnd(), o.getDailyCost()));
+        double totPrice = getTotalPrice(r.getRentStart(), r.getRentEnd(), o.getDailyCost());
+        r.setTotalPrice(totPrice);
         r.setStartUpPrice(getStartUpPrice(r.getRentStart(), r.getRentEnd(), o.getDailyCost()));
         rentCounter++;
         r.setRentID(rentCounter);
@@ -279,7 +280,8 @@ public class Helper {
         
         User us = getOwner(r.getObjectID(), users);
         us.setBalance(us.getBalance() + getStartUpPrice(r.getRentStart(), r.getRentEnd(), o.getDailyCost()));
-        us.incrementAmountOfRentals();
+        User ren = getOwner(r.getClientID(), users);
+        ren.increaseMoneySpent(totPrice);
     }
     
     public String getClientName(int clientID, ArrayList users)
@@ -430,6 +432,7 @@ public class Helper {
                 owner.setDeleted(true);
         }
     }
+    
     public void showRegulars(ArrayList users)
     {
         System.out.println("\nEl usuarios mas regular: \n");
@@ -437,18 +440,25 @@ public class Helper {
         ArrayList temp = orderedUsersAmountRentals(users);
         for (Iterator<User> it = temp.iterator(); it.hasNext();)
         {
-            counter++;
             User us = it.next();
-            System.out.println(counter + ". " + us.getUserName() + "\nCantidad de alquileres:\t" + us.getAmountOfRentals() 
-                    + "\nTotal importe de alquiler pagado:\t" + us.getBalance() + "\nDirección:\t" + us.getAdress() + "\n");
+            if (us.getMoneySpent() > 0)
+            {   
+                counter++;
+                System.out.println(counter + ". " + us.getUserName() + "\nTotal importe de alquiler pagado:\t" +
+                    us.getMoneySpent() + "\nDirección:\t" + us.getAdress() + "\n");
+            }
         }
-    
     }
+    
     public ArrayList orderedUsersAmountRentals(ArrayList users)
     {
         ArrayList temp = users;
-        Collections.sort(temp, (User u1, User u2) -> u1.getAmountOfRentals() - u2.getAmountOfRentals());
-        Collections.sort(temp, Collections.reverseOrder());
+        Collections.sort(temp, (User u1, User u2) -> {
+            return Double.compare(u1.getMoneySpent(), u2.getMoneySpent());
+        });
+        //Collections.sort(temp, Collections.reverseOrder());
+        Collections.reverse(temp);
         return temp;
     }
+    
 }

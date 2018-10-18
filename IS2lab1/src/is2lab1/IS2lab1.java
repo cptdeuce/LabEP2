@@ -34,6 +34,7 @@ public class IS2lab1 {
                 "3-Alquiler de objeto\n" + "4-Listar todos los objetos\n" +
                 "5-Baja de objeto\n" + "6-Mostrar saldos\n" + "7-Editar costo diario de objeto\n" 
                 + "8-Recibir textfile de saldos\n" + "9-Eliminar usuario\n" + "10-Listar más asiduos\n" + "11-Salir\n");
+              
         int menu = 0;
         do{
             switch(menu){

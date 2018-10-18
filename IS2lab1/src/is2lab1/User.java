@@ -13,18 +13,18 @@ public class User {
     int userId;
     String userName;
     String userEmail;
-    double balance = 0;
+    double balance = 0.0;
     boolean deleted = false;
-    int amountOfRentals = 0;
+    double moneySpent = 0.0;
 
-    public int getAmountOfRentals() {
-        return amountOfRentals;
+    public double getMoneySpent() {
+        return moneySpent;
     }
 
-    public void incrementAmountOfRentals() {
-        amountOfRentals++ ;
+    public void increaseMoneySpent(double money) {
+        this.moneySpent += money;
     }
-
+    
     public String getAdress() {
         return adress;
     }
