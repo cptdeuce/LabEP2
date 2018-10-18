@@ -13,7 +13,52 @@ public class User {
     int userId;
     String userName;
     String userEmail;
-    double balance = 0;
+    double balance = 0.0;
+    boolean deleted = false;
+    double moneySpent = 0.0;
+
+    public double getMoneySpent() {
+        return moneySpent;
+    }
+
+    public void increaseMoneySpent(double money) {
+        this.moneySpent += money;
+    }
+    
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public String getTown() {
+        return town;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+    String adress;
+    String town;
+    String province;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public double getBalance() {
         return balance;

@@ -5,6 +5,7 @@
  */
 package is2lab1;
 
+import java.text.DateFormat;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,6 +14,8 @@ import java.io.Writer;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -70,6 +73,12 @@ public class Helper {
         s.setUserName(sc.nextLine());
         System.out.print("\nEmail: ");
         s.setUserEmail(sc.nextLine());
+        System.out.print("\nDirección : ");
+        s.setAdress(sc.nextLine());
+        System.out.print("\nPoblación : ");
+        s.setTown(sc.nextLine());
+        System.out.print("\nProvincia : ");
+        s.setProvince(sc.nextLine());
         userCounter++;
         s.setUserId(userCounter);
         users.add(s);
@@ -162,8 +171,8 @@ public class Helper {
     public void showBalances(ArrayList users, ArrayList objects, ArrayList rents)
     {   
         int counterOwners = 0;
-        int counterObjects = 0;
         
+                
         for (Iterator<User> it = users.iterator(); it.hasNext();)
         {
             User owner = it.next();
@@ -183,13 +192,12 @@ public class Helper {
                     {
                         if(isRented(o.getCodeNumber(), rents))
                         {
-                            counterObjects++;
                             showObjectRents(o.getCodeNumber(), rents, users, o);
                         }else
                             System.out.println("\n\t\tEl objeto " + o.getCodeNumber() + " no tiene préstamos asociados.");
                     }
                 }
-                System.out.print("Importe total acumulado para la startup: "+ owner.getBalance() + "euros\n");
+                System.out.println("Importe total acumulado para la startup: "+ owner.getBalance() + "euros\n");
             }
             else 
                 System.out.printf("El properietario " + counterOwners +" no tiene objetos asociados.\n");
@@ -260,7 +268,8 @@ public class Helper {
         System.out.print("\nFecha de termino de alquiler (dd/mm/yyyy): ");
         r.setRentEnd(validateDate());
         Object o = getObject(r.getObjectID(), objects);
-        r.setTotalPrice(getTotalPrice(r.getRentStart(), r.getRentEnd(), o.getDailyCost()));
+        double totPrice = getTotalPrice(r.getRentStart(), r.getRentEnd(), o.getDailyCost());
+        r.setTotalPrice(totPrice);
         r.setStartUpPrice(getStartUpPrice(r.getRentStart(), r.getRentEnd(), o.getDailyCost()));
         rentCounter++;
         r.setRentID(rentCounter);
@@ -269,6 +278,8 @@ public class Helper {
         
         User us = getOwner(r.getObjectID(), users);
         us.setBalance(us.getBalance() + getStartUpPrice(r.getRentStart(), r.getRentEnd(), o.getDailyCost()));
+        User ren = getOwner(r.getClientID(), users);
+        ren.increaseMoneySpent(totPrice);
     }
     
     public String getClientName(int clientID, ArrayList users)
@@ -416,7 +427,36 @@ public class Helper {
         {
             User owner = it.next();
             if (owner.getUserId() == userID)
-                it.remove();
+                owner.setDeleted(true);
         }
     }
+    
+    public void showRegulars(ArrayList users)
+    {
+        System.out.println("\nEl usuarios mas regular: \n");
+        int counter = 0;
+        ArrayList temp = orderedUsersAmountRentals(users);
+        for (Iterator<User> it = temp.iterator(); it.hasNext();)
+        {
+            User us = it.next();
+            if (us.getMoneySpent() > 0)
+            {   
+                counter++;
+                System.out.println(counter + ". " + us.getUserName() + "\nTotal importe de alquiler pagado:\t" +
+                    us.getMoneySpent() + "\nDirección:\t" + us.getAdress() + "\n");
+            }
+        }
+    }
+    
+    public ArrayList orderedUsersAmountRentals(ArrayList users)
+    {
+        ArrayList temp = users;
+        Collections.sort(temp, (User u1, User u2) -> {
+            return Double.compare(u1.getMoneySpent(), u2.getMoneySpent());
+        });
+        //Collections.sort(temp, Collections.reverseOrder());
+        Collections.reverse(temp);
+        return temp;
+    }
+    
 }
