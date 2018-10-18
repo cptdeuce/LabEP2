@@ -5,10 +5,13 @@
  */
 package is2lab1;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -17,7 +20,46 @@ import java.util.Scanner;
  */
 public class Helper {
   
-    public void createUser(ArrayList users, int userCounter)
+    public static boolean isEmail(String userEmail)
+    {
+        return false;
+    }
+    
+    public boolean isValidDate(LocalDate input, LocalDate start, LocalDate end)
+    {
+        if(input.isBefore(start))
+            return false;
+        else if(input.isAfter(end))
+            return false;
+        return true;
+    }
+    
+    public boolean isEndDateValid(LocalDate input, LocalDate start)
+    {
+        if(input.isBefore(start) || input.isEqual(start))
+            return false;
+        return true;
+    }
+    
+    public LocalDate validateDate()
+    {
+        boolean flag = true;
+        Scanner input = new Scanner(System.in);
+        DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        do{
+          try{
+            LocalDate date = LocalDate.parse(input.nextLine(), dt);
+            flag = false;
+            return date;
+            }catch(Exception e){
+                System.out.print("\nFecha invalida.");
+                System.out.print("\nIngrese nueva fecha: ");
+            }  
+        }while(flag);
+        return null;
+    }
+    
+    public int createUser(ArrayList users, int userCounter)
     {
         Scanner sc = new Scanner(System.in);
         User s = new User();
@@ -29,9 +71,10 @@ public class Helper {
         userCounter++;
         s.setUserId(userCounter);
         users.add(s);
+        return userCounter;
     }
     
-    public void createObject(ArrayList objects, ArrayList users, int objectCounter)
+    public int createObject(ArrayList objects, ArrayList users, int objectCounter)
     {   
         Scanner sc = new Scanner(System.in);
         Object o = new Object();
@@ -46,15 +89,16 @@ public class Helper {
         o.setOwnerNumber(Integer.parseInt(sc.nextLine()));
         System.out.print("\nDescripcion Objeto: ");
         o.setDescription(sc.nextLine());
-        System.out.print("\nFecha de Inicio (yyyy-mm-dd): ");
-        o.setStartDate(LocalDate.parse(sc.nextLine()));
-        System.out.print("\nFecha de Termino (yyyy-mm-dd): ");
-        o.setEndDate(LocalDate.parse(sc.nextLine()));
+        System.out.print("\nFecha de Inicio (dd/mm/yyyy): ");
+        o.setStartDate(validateDate());    
+        System.out.print("\nFecha de Termino (dd/mm/yyyy): ");           
+        o.setEndDate(validateDate());
         System.out.print("\nCosto diario: ");
         o.setDailyCost(Integer.parseInt(sc.nextLine()));
         objectCounter++;
         o.setCodeNumber(objectCounter);
         objects.add(o);
+        return objectCounter;
     }
     
     public boolean isOwner(ArrayList objects, int ownerID)
@@ -79,9 +123,10 @@ public class Helper {
         {
             User owner = it.next();
             counterOwners++;
-            System.out.printf("\nPROPIETARIO " + owner.getUserId());
+            /*System.out.printf("\nPROPIETARIO " + owner.getUserId());
             System.out.printf("\nNombre del propietario: " + owner.getUserName());
-            System.out.printf("\nCorreo Electrónico: " + owner.getUserEmail() + "\n");
+            System.out.printf("\nCorreo Electrónico: " + owner.getUserEmail() + "\n");*/
+            System.out.println(owner);
             System.out.printf("\n \tOBJETOS DEL PROPIETARIO " + counterOwners + "\n");
             
             if (!objects.isEmpty() && isOwner(objects, owner.getUserId()))
@@ -94,12 +139,13 @@ public class Helper {
                         if(isRented(o.getCodeNumber(), rents))
                         {
                             counterObjects++;
-                            System.out.printf("\n \tCódigo del objeto: " + o.getCodeNumber());
+                            /*System.out.printf("\n\tCódigo del objeto: " + o.getCodeNumber());
                             System.out.printf("\n\tDescripción: " + o.getDescription());
                             System.out.printf("\n\tFecha de disponibilidad: " + o.getStartDate().getDayOfMonth() + "/" + o.getStartDate().getMonth() + "/" 
                             + o.getStartDate().getYear() +" - " + o.getEndDate().getDayOfMonth() + "/" + o.getEndDate().getMonth() + "/" 
                             + o.getEndDate().getYear() + "\n");
-                            System.out.printf("\n\tCoste del préstamo por día: " + o.getDailyCost() + " euros\n");
+                            System.out.printf("\n\tCoste del préstamo por día: " + o.getDailyCost() + " euros\n");*/
+                            System.out.println(o);
                             showObjectRents(o.getCodeNumber(), rents, users, o);
                         } else
                             System.out.println("\n\t\tEl objeto " + o.getCodeNumber() + " no tiene préstamos asociados.");
@@ -120,9 +166,11 @@ public class Helper {
         {
             User owner = it.next();
             counterOwners++;
-            System.out.printf("\nPROPIETARIO " + owner.getUserId());
+            /*System.out.printf("\nPROPIETARIO " + owner.getUserId());
             System.out.printf("\nNombre del propietario: " + owner.getUserName());
-            System.out.printf("\nCorreo Electrónico: " + owner.getUserEmail() + "\n");
+            System.out.printf("\nCorreo Electrónico: " + owner.getUserEmail() + "\n");*/
+            System.out.println(owner);
+            
             
             if (!objects.isEmpty() && isOwner(objects, owner.getUserId()))
             {
@@ -154,12 +202,13 @@ public class Helper {
             Object o = objit.next();
             if(o.isAvailable())
             {
-                System.out.printf("\n \tCódigo del objeto: " + o.getCodeNumber());
+                /*System.out.printf("\n \tCódigo del objeto: " + o.getCodeNumber());
                 System.out.printf("\n\tDescripción: " + o.getDescription());
                 System.out.printf("\n\tFecha de disponibilidad: " + o.getStartDate().getDayOfMonth() + "/" + o.getStartDate().getMonth() + "/" 
                             + o.getStartDate().getYear() +" - " + o.getEndDate().getDayOfMonth() + "/" + o.getEndDate().getMonth() + "/" 
                             + o.getEndDate().getYear() + "\n");
-                System.out.printf("\n\tCoste del préstamo por día: " + o.getDailyCost() + " euros\n");
+                System.out.printf("\n\tCoste del préstamo por día: " + o.getDailyCost() + " euros\n");*/
+                System.out.println(o);
             }
         }
     }
@@ -204,15 +253,18 @@ public class Helper {
         showAllObjects(objects);
         System.out.print("\nID de objeto: ");
         r.setObjectID(Integer.parseInt(input.nextLine()));
-        System.out.print("\nFecha de inicio de alquiler (yyyy-mm-dd): ");
-        r.setRentStart(LocalDate.parse(input.nextLine()));
-        System.out.print("\nFecha de termino de alquiler (yyyy-mm-dd): ");
-        r.setRentEnd(LocalDate.parse(input.nextLine()));
+        System.out.print("\nFecha de inicio de alquiler (dd/mm/yyyy): ");
+        r.setRentStart(validateDate());
+        System.out.print("\nFecha de termino de alquiler (dd/mm/yyyy): ");
+        r.setRentEnd(validateDate());
+        Object o = getObject(r.getObjectID(), objects);
+        r.setTotalPrice(getTotalPrice(r.getRentStart(), r.getRentEnd(), o.getDailyCost()));
+        r.setStartUpPrice(getStartUpPrice(r.getRentStart(), r.getRentEnd(), o.getDailyCost()));
         rentCounter++;
         r.setRentID(rentCounter);
         rents.add(r);
         
-        Object o = getObject(r.getObjectID(), objects);
+        
         User us = getOwner(r.getObjectID(), users);
         us.setBalance(us.getBalance() + getStartUpPrice(r.getRentStart(), r.getRentEnd(), o.getDailyCost()));
     }
@@ -268,13 +320,14 @@ public class Helper {
             Rent r = rentIt.next();
             if(r.getObjectID() == objectID)
             {
-                System.out.printf("\n \t\tPRÉSTAMOS DEL OBJETO " + objectID + "\n");
+                /*System.out.printf("\n\t\tPRÉSTAMOS DEL OBJETO " + objectID + "\n");
                 System.out.printf("\n\t\tNombre del cliente: " + getClientName(r.getClientID(), users) + "\n");
                 System.out.printf("\n\t\tFechas del préstamo: " + r.getRentStart().getDayOfMonth() + "/" + r.getRentStart().getMonth() + "/" 
                         + r.getRentStart().getYear() +" - " + r.getRentEnd().getDayOfMonth() + "/" + r.getRentEnd().getMonth() + "/" 
                         + r.getRentEnd().getYear() + "\n");
-                System.out.printf("\n\t\tImporte del préstamo: " + getTotalPrice(r.getRentStart(), r.getRentEnd(), o.getDailyCost()));
-                System.out.printf("\n\t\tImporte para la startup: " + getStartUpPrice(r.getRentStart(), r.getRentEnd(), o.getDailyCost()) + "\n");
+                System.out.printf("\n\t\tImporte del préstamo: " + r.getTotalPrice());
+                System.out.printf("\n\t\tImporte para la startup: " + r.getStartUpPrice() + "\n");*/
+                System.out.println(r.toString(users));
             }
         }
     }

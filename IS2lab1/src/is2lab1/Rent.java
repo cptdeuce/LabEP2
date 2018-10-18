@@ -6,6 +6,7 @@
 package is2lab1;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
@@ -78,5 +79,14 @@ public class Rent {
         this.rentEnd = rentEnd;
     }
     
-    
+    public String toString(ArrayList users)
+    {
+        Helper hp = new Helper();
+        String s;
+        s = String.format("\n\t\tPRÉSTAMOS DEL OBJETO %d \n\t\tNombre del cliente: %s \n\t\tFechas del préstamo: %d/%d/%d - %d/%d/%d"
+                + "\n\t\tImporte del préstamo: %.2f \n\t\tImporte para la startup: %.2f", this.objectID, hp.getClientName(clientID, users), 
+                this.rentStart.getDayOfMonth(), this.rentStart.getMonthValue(), this.rentStart.getYear(), this.rentEnd.getDayOfMonth(), 
+                this.rentEnd.getMonthValue(), this.rentEnd.getYear(), this.totalPrice, this.startUpPrice);
+        return s;
+    }
 }

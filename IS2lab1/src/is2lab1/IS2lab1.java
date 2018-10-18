@@ -42,11 +42,11 @@ public class IS2lab1 {
                     menu = reader.nextInt();
                     break;
                 case 1:  
-                    hp.createUser(users, userCounter);
+                    userCounter = hp.createUser(users, userCounter);
                     menu = 0;
                     break;
                 case 2:
-                    hp.createObject(objects, users, objectCounter);
+                    objectCounter = hp.createObject(objects, users, objectCounter);
                     menu = 0;
                     break;
                 case 3:

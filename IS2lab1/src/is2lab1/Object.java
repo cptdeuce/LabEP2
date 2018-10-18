@@ -93,5 +93,14 @@ public class Object {
     public long getDurationRent() {
         return durationRent;
     }
-     
+    
+    public String toString()
+    {
+        String s;
+        s = String.format("\n\tCódigo del objeto: %d \n\tDescripción: %s \n\tFecha de disponibilidad: %d/%d/%d - %d/%d/%d "
+                + "\n\tCoste del préstamo por día: %.2f euros\n", this.codeNumber, this.description, this.startDate.getDayOfMonth(),
+                this.startDate.getMonthValue(), this.startDate.getYear(), this.endDate.getDayOfMonth(), this.endDate.getMonthValue(), 
+                this.endDate.getYear(), this.dailyCost);
+        return s;
+    }
 }
