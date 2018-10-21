@@ -3,3 +3,7 @@
 *.properties
 *.properties
 IS2lab1/build/classes/.netbeans_automatic_build
+*.properties
+*.class
+*.jar
+*.xml

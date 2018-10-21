@@ -10,6 +10,7 @@ package is2lab1;
  * @author Lokem
  */
 public class User {
+    static int usersNumber = 0;
     int userId;
     String userName;
     String userEmail;
@@ -17,6 +18,12 @@ public class User {
     boolean deleted = false;
     double moneySpent = 0.0;
 
+    public User() 
+    {
+        usersNumber++;
+        this.userId = usersNumber;
+    }
+    
     public double getMoneySpent() {
         return moneySpent;
     }
@@ -68,14 +75,8 @@ public class User {
         this.balance = balance;
     }
     
-    
-
     public int getUserId() {
         return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getUserName() {
@@ -97,7 +98,7 @@ public class User {
     public String toString()
     {
         String s;
-        s = String.format("\nPROPIETARIO %d \nNombre del propietario: %s \nCorreo Electrónico: %s", this.userId, this.userName, this.userEmail);
+        s = String.format("\nPROPIETARIO %d \nNombre del propietario: %s \nCorreo Electrónico: %s\n", this.userId, this.userName, this.userEmail);
         return s;
     }
 }

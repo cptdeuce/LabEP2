@@ -1,2 +1,19 @@
 
-TEST, hier moet info saldos inkomen (optie 6)
+PROPIETARIO 1 
+Nombre del propietario: Andoni 
+Correo Electrónico: Andoni@gmail.com
+
+		PRÉSTAMOS DEL OBJETO 1 
+		Nombre del cliente: Olivier 
+		Fechas del préstamo: 20/10/2019 - 30/10/2019
+		Importe del préstamo: 50.00 
+		Importe para la startup: 5.00
+
+Importe total acumulado para la startup: 5.00 euros
+
+PROPIETARIO 2 
+Nombre del propietario: Olivier 
+Correo Electrónico: Olivier@gmail.com
+
+
+El properietario 2 no tiene objetos asociados.

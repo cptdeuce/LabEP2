@@ -12,7 +12,8 @@ import static java.util.concurrent.TimeUnit.DAYS;
 public class Object {
    
     private int ownerNumber;
-    private int codeNumber;     //incremented by program
+    private static int objectsNumber = 0;     //incremented by program
+    private int codeNumber;
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -20,8 +21,10 @@ public class Object {
     private long durationRent;
     private boolean available = true;
  
-    public Object(){
-        
+    public Object()
+    {
+        objectsNumber++;
+        this.codeNumber = objectsNumber;
     }
 
     public boolean isAvailable() {
@@ -34,10 +37,6 @@ public class Object {
 
     public void setOwnerNumber(int ownerNumber) {
         this.ownerNumber = ownerNumber;
-    }
-
-    public void setCodeNumber(int codeNumber) {
-        this.codeNumber = codeNumber;
     }
 
     public void setDescription(String description) {
@@ -98,7 +97,7 @@ public class Object {
     {
         String s;
         s = String.format("\n\tCódigo del objeto: %d \n\tDescripción: %s \n\tFecha de disponibilidad: %d/%d/%d - %d/%d/%d "
-                + "\n\tCoste del préstamo por día: %.2f euros\n", this.codeNumber, this.description, this.startDate.getDayOfMonth(),
+                + "\n\tCoste del préstamo por día: %.2f euros", this.codeNumber, this.description, this.startDate.getDayOfMonth(),
                 this.startDate.getMonthValue(), this.startDate.getYear(), this.endDate.getDayOfMonth(), this.endDate.getMonthValue(), 
                 this.endDate.getYear(), this.dailyCost);
         return s;

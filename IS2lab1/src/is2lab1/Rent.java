@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * @author Lokem
  */
 public class Rent {
+    static int rentsNumber = 0;
     int rentID;
     int clientID;
     int objectID;
@@ -20,6 +21,12 @@ public class Rent {
     LocalDate rentEnd;
     double startUpPrice;
     double totalPrice;
+
+    public Rent() 
+    {
+        rentsNumber++;
+        this.rentID = rentsNumber;
+    }
 
     public double getStartUpPrice() {
         return startUpPrice;
@@ -39,10 +46,6 @@ public class Rent {
     
     public int getRentID() {
         return rentID;
-    }
-
-    public void setRentID(int rentID) {
-        this.rentID = rentID;
     }
 
     public int getClientID() {
@@ -82,7 +85,7 @@ public class Rent {
         Helper hp = new Helper();
         String s;
         s = String.format("\n\t\tPRÉSTAMOS DEL OBJETO %d \n\t\tNombre del cliente: %s \n\t\tFechas del préstamo: %d/%d/%d - %d/%d/%d"
-                + "\n\t\tImporte del préstamo: %.2f \n\t\tImporte para la startup: %.2f", this.objectID, hp.getClientName(clientID, users), 
+                + "\n\t\tImporte del préstamo: %.2f \n\t\tImporte para la startup: %.2f\n", this.objectID, hp.getClientName(clientID, users), 
                 this.rentStart.getDayOfMonth(), this.rentStart.getMonthValue(), this.rentStart.getYear(), this.rentEnd.getDayOfMonth(), 
                 this.rentEnd.getMonthValue(), this.rentEnd.getYear(), this.totalPrice, this.startUpPrice);
         return s;

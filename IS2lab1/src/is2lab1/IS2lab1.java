@@ -22,8 +22,6 @@ public class IS2lab1 {
      */
     public static void main(String[] args) {
         
-        int userCounter = 0;
-        int objectCounter = 0;
         int rentCounter = 0;
         ArrayList users = new ArrayList();
         ArrayList objects = new ArrayList();
@@ -44,15 +42,15 @@ public class IS2lab1 {
                     menu = reader.nextInt();
                     break;
                 case 1:  
-                    userCounter = hp.createUser(users, userCounter);
+                    hp.createUser(users);
                     menu = 0;
                     break;
                 case 2:
-                    objectCounter = hp.createObject(objects, users, objectCounter);
+                    hp.createObject(objects, users);
                     menu = 0;
                     break;
                 case 3:
-                    hp.rentObject(users, objects, rents, rentCounter);
+                    hp.rentObject(users, objects, rents);
                     menu = 0;
                     break;
                 case 4:
@@ -72,7 +70,7 @@ public class IS2lab1 {
                     menu = 0;
                     break;
                 case 8:
-                    hp.putInfoInTextFile();
+                    hp.putInfoInTextFile(users, objects, rents);
                     menu = 0;
                     break;
                 case 9:
